@@ -8,7 +8,7 @@ pip install asyncspinner
 ```
 
 ## Usage
-```
+```python
 from asyncspinner import Spinner
 
 async with Spinner('Connecting'):
