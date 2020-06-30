@@ -17,7 +17,7 @@ def main():
             'Source Code': 'https://github.com/Hegdahl/asyncspinner',
         },
         classifiers=[
-            'License :: MIT :: Copyright (c) 2019 Magnus Hegdahl'
+            'License :: OSI Approved :: MIT License'
         ],
     )
 
