@@ -2,6 +2,8 @@
 Little graphic to show user that something is waited for when
 a progress bar is overkill, or the progress is unknown.
 '''
+import sys
+
 import asyncio
 import colorama
 import cursor
@@ -11,7 +13,7 @@ from . import styles
 _DOTS = ('   ', '.  ', '.. ', '...')
 
 def _on_line_below(s):
-    return f'\n{s}{colorama.Cursor.UP(1)}\r\033[K'
+    return f'\n{colorama.ansi.clear_line()}{s}{colorama.Cursor.UP(1)}\r\033[K'
 
 class Spinner:
     '''
@@ -56,7 +58,7 @@ class Spinner:
     async def loop(self):
         '''Print animation frames as long as the context is active.'''
         while True:
-            print(_on_line_below(next(self.frame_gen)), end='')
+            print(_on_line_below(next(self.frame_gen)), end='', file=sys.stderr)
             try:
                 await asyncio.wait_for(
                     self.stopper.wait(),
@@ -70,6 +72,7 @@ class Spinner:
         cursor.hide()
         self.stopper.clear()
         asyncio.create_task(self.loop())
+        return self
 
     async def __aexit__(self, *_):
         cursor.show()
